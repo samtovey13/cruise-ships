@@ -1,11 +1,8 @@
-// USER STORY:
-// As a cruise ship captain,
-// So I can get passengers aboard a ship,
-// I want a ship to have a starting port.
+const { Ship, Port } = require('../src/Ship.js');
 
-const Ship = require('../src/Ship.js');
-
-const ship = new Ship ('Dover');
+const portDover = new Port ('Dover');
+const portCalais = new Port ('Calais');
+const ship = new Ship (portDover);
 
 
 describe('Ship', () => {
@@ -13,17 +10,32 @@ describe('Ship', () => {
         expect(new Ship()).toBeInstanceOf(Object);
     });
     it('has a starting port', () => {
-        expect(ship.startingPort).toBe('Dover');
+        ship.startingPort = portDover;
+        expect(ship.startingPort.name).toBe('Dover');
     });
     it('can set sail', () => {
         ship.setSail();
         expect(ship.startingPort).toBeFalsy();
+    });
+    it('can dock at a port', () => {
+        expect(ship.startingPort).toBeFalsy();
+        ship.dock(portCalais);
+        expect(ship.startingPort).toEqual(portCalais);
     });
 //     it('has property passengers', () => {
 
 //     });
 
 
+});
+
+describe('Port', () => {
+    it('creates a new object', () => {
+        expect(new Port()).toBeInstanceOf(Object);
+    });
+    it('has a name property', () => {
+        expect(portCalais.name).toBe('Calais');
+    });
 });
 
 // describe('ports', () => {

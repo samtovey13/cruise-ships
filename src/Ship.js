@@ -3,7 +3,18 @@ function Ship(startingPort) {
 };
 
 Ship.prototype.setSail = function() {
-    this.startingPort = "";
+    this.startingPort = undefined;
+};
+
+Ship.prototype.dock = function(port) {
+    this.startingPort = port;
 }
 
-module.exports = Ship;
+function Port(name) {
+    this.name = name;
+};
+
+module.exports = {
+    Ship, 
+    Port
+};
