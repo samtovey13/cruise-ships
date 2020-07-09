@@ -5,24 +5,25 @@
 
 const Ship = require('../src/Ship.js');
 
+const ship = new Ship ('Dover');
+
+
 describe('Ship', () => {
     it('creates a new object', () => {
         expect(new Ship()).toBeInstanceOf(Object);
     });
     it('has a starting port', () => {
-        const ship = new Ship ('Dover');
         expect(ship.startingPort).toBe('Dover');
+    });
+    it('can set sail', () => {
+        ship.setSail();
+        expect(ship.startingPort).toBeFalsy();
     });
 //     it('has property passengers', () => {
 
 //     });
 
-//     it('has property capacity', () => {
 
-//     })
-//     it('has property captain', () => {
-
-//     });
 });
 
 // describe('ports', () => {
@@ -37,7 +38,7 @@ describe('Ship', () => {
 //     });
 // });
 
-// describe('sail()', () => {
+// describe('setSail()', () => {
 //     it('sets the ship`s current location to "at sea"', () => {
 
 //     });
@@ -56,7 +57,7 @@ describe('Ship', () => {
 //     it('throws an error if called while the ship is already docked', () => {
 
 //     });
-// })
+// });
 
 // describe('boardPassengers', () => {
 //     it('adds boarded passengers to the passengers property', () => {
@@ -101,4 +102,4 @@ describe('Ship', () => {
 //     it('returns "at sea" if the ship is sailing', () => {
 
 //     });
-// })
+// });
