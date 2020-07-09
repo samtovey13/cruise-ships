@@ -1,4 +1,5 @@
-const { Ship, Port } = require('../src/Ship.js');
+const { Ship } = require('../src/Ship.js');
+const { Port } = require('../src/Port.js');
 
 const portDover = new Port ('Dover');
 const portCalais = new Port ('Calais');
@@ -9,18 +10,18 @@ describe('Ship', () => {
     it('creates a new object', () => {
         expect(new Ship()).toBeInstanceOf(Object);
     });
-    it('has a starting port', () => {
-        ship.startingPort = portDover;
-        expect(ship.startingPort.name).toBe('Dover');
+    it('has a current port', () => {
+        ship.currentPort = portDover;
+        expect(ship.currentPort.name).toBe('Dover');
     });
     it('can set sail', () => {
         ship.setSail();
-        expect(ship.startingPort).toBeFalsy();
+        expect(ship.currentPort).toBeFalsy();
     });
     it('can dock at a port', () => {
-        expect(ship.startingPort).toBeFalsy();
+        expect(ship.currentPort).toBeFalsy();
         ship.dock(portCalais);
-        expect(ship.startingPort).toEqual(portCalais);
+        expect(ship.currentPort).toEqual(portCalais);
     });
 //     it('has property passengers', () => {
 
@@ -29,47 +30,6 @@ describe('Ship', () => {
 
 });
 
-describe('Port', () => {
-    it('creates a new object', () => {
-        expect(new Port()).toBeInstanceOf(Object);
-    });
-    it('has a name property', () => {
-        expect(portCalais.name).toBe('Calais');
-    });
-});
-
-// describe('ports', () => {
-//     it('is a property of Ship', () => {
-
-//     });
-//     it('is an array of all ports where the ship has docked', () => {
-
-//     });
-//     it('can return the first and last port where the ship docked', () => {
-
-//     });
-// });
-
-// describe('setSail()', () => {
-//     it('sets the ship`s current location to "at sea"', () => {
-
-//     });
-//     it('returns a message if the ship is already at sea', () => {
-
-//     })
-// });
-
-// describe('dock(port)', () => {
-//     it('changes the ship`s current location to the name of the port', () => {
-
-//     });
-//     it('adds the latest port to the ports array', () => {
-
-//     });
-//     it('throws an error if called while the ship is already docked', () => {
-
-//     });
-// });
 
 // describe('boardPassengers', () => {
 //     it('adds boarded passengers to the passengers property', () => {
