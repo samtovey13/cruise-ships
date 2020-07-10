@@ -13,13 +13,6 @@ beforeEach(() => {
     itinerary = new Itinerary([portDover, portCalais]);
     ship = new Ship(itinerary);
 });
-describe('my beverage', () => {
-    test('is delicious and not sour', () => {
-    const myBeverage = {delicious: true, sour: false};
-    const myBeverages = ['orange juice', myBeverage];
-    expect(myBeverages).toContainEqual(myBeverage);
-    });
-  });
 
 describe('Ship', () => {
     it('creates a new object', () => {
