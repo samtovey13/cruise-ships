@@ -1,16 +1,28 @@
 const { Ship } = require('../src/Ship.js');
-const { Port } = require('../src/Port.js');
-const { Itinerary} = require('../src/Itinerary.js');
 
 let portDover;
 let portCalais;
 let itinerary;
 let ship;
 
-beforeEach(() => {
-    portDover = new Port ('Dover');
-    portCalais = new Port ('Calais');
-    itinerary = new Itinerary([portDover, portCalais]);
+beforeEach(() => { 
+    const port = {          //making a mock template for Port
+        removeShip: jest.fn(),
+        addShip: jest.fn()
+    };
+    portDover = {
+        ...port,
+        name: 'Dover',      //only adding the properties needed
+        ships: []
+    };
+    portCalais = {
+        ...port,
+        name: 'Calais',
+        ships: []
+    };
+    itinerary = {       //stub of Itinerary with same interface
+        ports: [portDover, portCalais]
+    };
     ship = new Ship(itinerary);
 });
 
@@ -21,7 +33,7 @@ describe('Ship', () => {
             expect(new Ship(itinerary)).toBeInstanceOf(Object);
         });
         it('gets added to port on instantiation', () => {
-            expect(portDover.ships).toContainEqual(ship);
+            expect(portDover.addShip).toHaveBeenCalledWith(ship);
         });
         it('has an itinerary containing an array of ports', () => {
             expect(ship.itinerary).toEqual(itinerary);
@@ -35,17 +47,14 @@ describe('Ship', () => {
     });
 
     describe('setSail', () => {
+        beforeEach(() => {
+
+        });
         it('can set sail', () => {
-            const newShip = new Ship(itinerary);
-            expect(portDover.ships).toHaveLength(2);
-            expect(portDover.ships).toContainEqual(ship);
-            expect(portDover.ships).toContainEqual(newShip);
             ship.setSail();
             expect(ship.currentPort).toBeFalsy();
             expect(ship.previousPort).toEqual(portDover);
-            expect(portDover.ships).toHaveLength(1);
-            expect(portDover.ships).toContainEqual(newShip);
-            expect(portDover.ships).not.toContainEqual(ship);
+            expect(portDover.removeShip).toHaveBeenCalledWith(ship);
         });
         it('throws an error if setSail is called but the ship is already sailing', () => {
             ship.setSail();
@@ -63,7 +72,7 @@ describe('Ship', () => {
             ship.setSail();
             ship.dock();
             expect(ship.currentPort).toEqual(portCalais);
-            expect(portCalais.ships).toContainEqual(ship);
+            expect(portCalais.addShip).toHaveBeenCalledWith(ship);
         });
         
         it('throws an error if dock() is called while the ship is already docked', () => {
