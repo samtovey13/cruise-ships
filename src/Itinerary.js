@@ -1,4 +1,4 @@
-function Itinerary(ports) {
+function Itinerary(ports) {     // ports is an array of Ports
     this.ports = ports;
 };
 
