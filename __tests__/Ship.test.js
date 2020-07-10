@@ -2,17 +2,31 @@ const { Ship } = require('../src/Ship.js');
 const { Port } = require('../src/Port.js');
 const { Itinerary} = require('../src/Itinerary.js');
 
-const portDover = new Port ('Dover');
-const portCalais = new Port ('Calais');
-const ports = [portDover, portCalais];
-const itinerary = new Itinerary(ports);
-const ship = new Ship(itinerary);
-const ship2 = new Ship(itinerary);
+let portDover;
+let portCalais;
+let itinerary;
+let ship;
 
+beforeEach(() => {
+    portDover = new Port ('Dover');
+    portCalais = new Port ('Calais');
+    itinerary = new Itinerary([portDover, portCalais]);
+    ship = new Ship(itinerary);
+});
+describe('my beverage', () => {
+    test('is delicious and not sour', () => {
+    const myBeverage = {delicious: true, sour: false};
+    const myBeverages = ['orange juice', myBeverage];
+    expect(myBeverages).toContainEqual(myBeverage);
+    });
+  });
 
 describe('Ship', () => {
     it('creates a new object', () => {
         expect(new Ship(itinerary)).toBeInstanceOf(Object);
+    });
+    it('gets added to port on instantiation', () => {
+        expect(portDover.ships).toContainEqual(ship);
     });
     it('has an itinerary containing an array of ports', () => {
         expect(ship.itinerary).toEqual(itinerary);
@@ -20,28 +34,38 @@ describe('Ship', () => {
     it('has a previous port property set to null', () => {
         expect(ship.previousPort).toBe(null);
     });
-    it('has a current port property set to idex[0] of the ports array', () => {
+    it('has a current port property', () => {
         expect(ship.currentPort).toEqual(portDover);
     });
-    it('can set sail, updating previous port and setting current port to null', () => {
+    it('can set sail', () => {
+        const newShip = new Ship(itinerary);
+        expect(portDover.ships).toHaveLength(2);
+        expect(portDover.ships).toContainEqual(ship);
+        expect(portDover.ships).toContainEqual(newShip);
         ship.setSail();
         expect(ship.currentPort).toBeFalsy();
         expect(ship.previousPort).toEqual(portDover);
+        expect(portDover.ships).toHaveLength(1);
+        expect(portDover.ships).toContainEqual(newShip);
+        expect(portDover.ships).not.toContainEqual(ship);
     });
     it('can dock at a port', () => {
+        ship.setSail();
         ship.dock();
         expect(ship.currentPort).toEqual(portCalais);
+        expect(portCalais.ships).toContainEqual(ship);
     });
     it('throws an error if setSail is called but the ship is already sailing', () => {
-        ship2.setSail();
-        expect(() => ship2.setSail()).toThrowError('Already at sea. Dock to arrive at the next port.');
+        ship.setSail();
+        expect(() => ship.setSail()).toThrowError('Already at sea. Dock to arrive at the next port.');
     });
     it('throws an error if dock() is called while the ship is already docked', () => {
-        ship2.dock();
-        expect(() => ship2.dock()).toThrowError('Already docked! Set sail to reach the next port.');
+        expect(() => ship.dock()).toThrowError('Already docked! Set sail to reach the next port.');
     });
     it('throws an error if setSail is called but the ship has reached the end of the itinerary', () => {
-        expect(() => ship2.setSail()).toThrowError('End of itinerary reached');
+        ship.setSail();
+        ship.dock();
+        expect(() => ship.setSail()).toThrowError('End of itinerary reached');
     });
 
 });
