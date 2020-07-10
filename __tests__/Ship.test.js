@@ -31,12 +31,12 @@ describe('Ship', () => {
         expect(ship.currentPort).toBeFalsy();
         expect(ship.previousPort).toEqual(portDover);
     });
-    it('can follow an itinerary', () => {
+    it('can follow an itinerary with two Ports', () => {
         expect(ship.currentPort).toBeFalsy();
         expect(ship.previousPort).toEqual(portDover);
         ship.dock();
         expect(ship.currentPort).toEqual(portCalais);
-        expect(ship.previousPort).toBeFalsy();
+        expect(ship.previousPort).toEqual(portDover);
         ship.setSail();
         expect(ship.previous)
     });
