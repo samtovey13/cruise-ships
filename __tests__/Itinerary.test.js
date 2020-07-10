@@ -1,7 +1,6 @@
 const { Itinerary } = require('../src/Itinerary');
-const { Port, portDover, portCalais } = require('../src/Port');
 
-const ports = [portDover, portCalais];
+const ports = jest.fn();
 const itinerary = new Itinerary(ports);
 
 describe('Itinerary', () => {

@@ -6,8 +6,8 @@ let ship2;
 
 beforeEach(() => {
     portCalais = new Port ('Calais');
-    ship = {name: 'ship'};        // don't have to import Ship constructor
-    ship2 = {name: 'ship2'};       // here we are only testing Port
+    ship = jest.fn();        // don't have to import Ship constructor
+    ship2 = jest.fn();       // here we are only testing Port
 });
 
 describe('Port', () => {
