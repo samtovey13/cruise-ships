@@ -13,6 +13,21 @@
       backgroundIndex += 1;
     }, 1000);
   };
+
+  Controller.prototype.renderPorts = function renderPorts(ports) {
+    const portsElement = document.querySelector("#ports");
+    portsElement.style.width = "0px";
+    ports.forEach((port, index) => {
+      const newPortElement = document.createElement("div");
+      newPortElement.className = "port";
+      newPortElement.dataset.portName = port.name;
+      newPortElement.dataset.portIndex = index;
+      portsElement.appendChild(newPortElement);
+      const portsElementWidth = parseInt(portsElement.style.width, 10); //parse integer in base 10
+      portsElement.style.width = `${portsElementWidth + 256}px`; //add 256px to ports element width
+    });
+  };
+
   if (typeof module !== "undefined" && module.exports) {
     module.exports = Controller;
   } else {
