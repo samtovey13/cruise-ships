@@ -44,6 +44,8 @@
   };
 
   Controller.prototype.setSail = function setSail() {
+    const sailButton = document.querySelector("#sailbutton");
+    sailButton.disabled = "true";
     const ship = this.ship;
     const currentPortIndex = ship.itinerary.ports.indexOf(ship.currentPort);
     const nextPortIndex = currentPortIndex + 1;
@@ -52,18 +54,64 @@
     );
 
     if (!nextPortElement) {
-      return alert("You're at the end of your cruise!");
-     }
-
+      this.renderMessage("You're at the end of your cruise!");
+      return;
+    }
+    this.renderMessage("Now departing " + ship.currentPort.name);
     const shipElement = document.querySelector("#ship");
     const sailInterval = setInterval(() => {
       const shipLeft = parseInt(shipElement.style.left, 10);
       if (shipLeft === nextPortElement.offsetLeft - 32) {
         ship.dock();
+        sailButton.removeAttribute("disabled");
+        this.renderMessage("Now arrived at " + ship.currentPort.name);
+        this.renderPortTracker();
         clearInterval(sailInterval);
       }
       shipElement.style.left = `${shipLeft + 1}px`;
-    }, 20);
+    }, 10);
+  };
+
+  Controller.prototype.renderMessage = function renderMessage(message) {
+    const messageElement = document.createElement("div");
+    messageElement.id = "message";
+    messageElement.innerHTML = message;
+    const messageDiv = document.querySelector("#message-div");
+    messageDiv.style.backgroundColor = "white";
+    messageDiv.appendChild(messageElement);
+    setTimeout(() => {
+      messageDiv.removeChild(messageElement);
+      messageDiv.style.backgroundColor = "black";
+    }, 3000);
+  };
+
+  Controller.prototype.renderPortTracker = function renderPortTracker() {
+    const portTrackerElement = document.querySelector("#port-tracker");
+    portTrackerElement.innerHTML = "";
+    const ship = this.ship;
+    const currentPort = ship.currentPort;
+    const currentPortIndex = ship.itinerary.ports.indexOf(ship.currentPort);
+    let nextPort;
+    if (currentPortIndex + 1 >= ship.itinerary.ports.length) {
+      nextPort = null;
+    } else {
+      nextPort = ship.itinerary.ports[currentPortIndex + 1];
+    }
+
+    const currentPortDiv = document.createElement("div");
+    currentPortDiv.id = "current-port-div";
+    currentPortDiv.innerHTML = `Current Port: '${currentPort.name}'`;
+    portTrackerElement.appendChild(currentPortDiv);
+
+    const nextPortDiv = document.createElement("div");
+    nextPortDiv.id = "next-port-div";
+    if (nextPort === null) {
+      nextPortDiv.innerHTML = "You have reached your final destination.";
+      portTrackerElement.appendChild(nextPortDiv);
+    } else {
+      nextPortDiv.innerHTML = `Next Port: '${nextPort.name}'`;
+      portTrackerElement.appendChild(nextPortDiv);
+    }
   };
 
   if (typeof module !== "undefined" && module.exports) {

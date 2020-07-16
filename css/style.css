@@ -8,8 +8,14 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  font-family: "Press Start 2P", cursive;
 }
-
+#port-tracker {
+  color: white;
+  width: 640px;
+  height: 70px;
+  font-size: 20px;
+}
 #viewport {
   width: 640px;
   height: 256px;
@@ -36,12 +42,46 @@ body {
   background-image: url("../images/ship.png");
   position: absolute;
 }
-
+@keyframes flashing {
+  0% {
+    font-size: 30px;
+  }
+  50% {
+    font-size: 32px;
+  }
+  100% {
+    font-size: 30px;
+  }
+}
 #sailbutton {
-  width: 640px;
-  border: none;
+  width: 400px;
+  height: 60px;
+  border-bottom: solid #be1818 6px;
+  border-right: solid #bb0101 6px;
+  border-top: solid #fc6363 6px;
+  border-left: solid #f84a4a 6px;
+  margin-top: 30px;
   background-color: red;
-  font-family: 'Press Start 2P', cursive;
   font-size: 30px;
   padding: 10px;
+}
+#sailbutton:hover {
+  color: white;
+}
+#sailbutton:disabled {
+  background-color: grey;
+  color: #353535;
+  border: none;
+  opacity: 0.6;
+}
+
+#message-div {
+  width: 640px;
+  height: 40px;
+}
+#message {
+  border: none;
+  background-color: white;
+  font-size: 18px;
+  margin: 10px;
 }
