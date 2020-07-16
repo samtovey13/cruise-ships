@@ -28,6 +28,16 @@
     });
   };
 
+  Controller.prototype.renderShip = function renderShip(ship) {
+    const shipPortIndex = ship.itinerary.ports.indexOf(ship.currentPort); //think I need to change this to counter
+    const portElement = document.querySelector(
+      `[data-port-index='${shipPortIndex}']`
+    );
+    const shipElement = document.querySelector("#ship");
+    shipElement.style.top = `${portElement.offsetTop + 32}px`; //offsetTop gets the distance from the top, which is the 96px margin we gave it
+    shipElement.style.left = `${portElement.offsetLeft - 32}px`; //we are giving the ship the same position as the port
+  };
+
   if (typeof module !== "undefined" && module.exports) {
     module.exports = Controller;
   } else {
