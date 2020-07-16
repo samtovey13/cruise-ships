@@ -20,9 +20,11 @@
   };
 
   Ship.prototype.dock = function () {
-    if (this.currentPort) {
-      throw new Error("Already docked! Set sail to reach the next port.");
-    }
+    if (typeof module !== "undefined" && module.exports) { //this error is only thrown if the programme is run in node - not required in browser due to automation of dock()
+      if (this.currentPort) {
+          throw new Error("Already docked! Set sail to reach the next port.");
+        }
+    } 
     this.currentPort = this.itinerary.ports[this.portsVisited];
     this.currentPort.addShip(this);
     this.portsVisited += 1;

@@ -1,6 +1,10 @@
 (function exportController() {
-  function Controller() {
+  function Controller(ship) {
     this.initialiseSea();
+    this.ship = ship;
+    document.querySelector("#sailbutton").addEventListener("click", () => {
+      this.setSail();
+    });
   }
 
   Controller.prototype.initialiseSea = function initialiseSea() {
@@ -28,7 +32,8 @@
     });
   };
 
-  Controller.prototype.renderShip = function renderShip(ship) {
+  Controller.prototype.renderShip = function renderShip() {
+    const ship = this.ship;
     const shipPortIndex = ship.itinerary.ports.indexOf(ship.currentPort); //think I need to change this to counter
     const portElement = document.querySelector(
       `[data-port-index='${shipPortIndex}']`
@@ -36,6 +41,29 @@
     const shipElement = document.querySelector("#ship");
     shipElement.style.top = `${portElement.offsetTop + 32}px`; //offsetTop gets the distance from the top, which is the 96px margin we gave it
     shipElement.style.left = `${portElement.offsetLeft - 32}px`; //we are giving the ship the same position as the port
+  };
+
+  Controller.prototype.setSail = function setSail() {
+    const ship = this.ship;
+    const currentPortIndex = ship.itinerary.ports.indexOf(ship.currentPort);
+    const nextPortIndex = currentPortIndex + 1;
+    const nextPortElement = document.querySelector(
+      `[data-port-index='${nextPortIndex}']`
+    );
+
+    if (!nextPortElement) {
+      return alert("You're at the end of your cruise!");
+     }
+
+    const shipElement = document.querySelector("#ship");
+    const sailInterval = setInterval(() => {
+      const shipLeft = parseInt(shipElement.style.left, 10);
+      if (shipLeft === nextPortElement.offsetLeft - 32) {
+        ship.dock();
+        clearInterval(sailInterval);
+      }
+      shipElement.style.left = `${shipLeft + 1}px`;
+    }, 20);
   };
 
   if (typeof module !== "undefined" && module.exports) {

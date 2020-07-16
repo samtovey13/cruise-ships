@@ -7,6 +7,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 #viewport {
@@ -34,4 +35,13 @@ body {
   height: 64px;
   background-image: url("../images/ship.png");
   position: absolute;
+}
+
+#sailbutton {
+  width: 640px;
+  border: none;
+  background-color: red;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 30px;
+  padding: 10px;
 }
