@@ -43,17 +43,9 @@
         </h2>
         <ul id="port-list"></ul>
         <div id="start-button-div">
-          <p>Press START to load your ports, or reset to plan new itinerary.</p>
-          <div id="review-buttons">
-            <button type="button" id="start-button">START</button>
-            <button
-              type="reset"
-              id="reset-button"
-              onClick="window.location.reload();"
-            >
-              RESET
-            </button>
-          </div>
+            <p class="error-message" id="empty-itinerary-error">Add a port first!</p>
+            <p>Press START to load your ports, or to reset jump to STEP 4.</p>
+          <button type="button" id="start-button">START</button>
         </div>
       </div>
     </div>

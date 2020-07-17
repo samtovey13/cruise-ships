@@ -28,6 +28,14 @@ portInput.addEventListener("keypress", function (event) {
   });
 
 document.querySelector("#start-button").addEventListener("click", () => {
+  if (userPorts.length < 1) {
+    const itineraryError = document.querySelector('#empty-itinerary-error')
+    itineraryError.style.display = "block";
+    setTimeout(() => {
+      itineraryError.style.display = "none";
+    }, 2000);
+    return;
+  }
   const itinerary = new Itinerary(userPorts);
   const ship = new Ship(itinerary);
   const controller = new Controller(ship);
