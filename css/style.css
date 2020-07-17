@@ -98,7 +98,7 @@ button {
   font-size: 14px;
 }
 #empty-itinerary-error {
-  text-align: right;
+  align-self: flex-end;
 }
 #start-button-div {
   display: flex;
