@@ -6,33 +6,119 @@
     <title>Cruise Ships</title>
     <link href="css/normalize.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <header id="port-tracker"></header>
-    <div id="message-div"></div>
+    <h1>Cruise Ships</h1>
+    <div class="flex-wrapper-1000px" id="form-container">
+      <form id="add-port-form" method="POST">
+        <h2>
+          STEP 1: Build your itinerary
+        </h2>
+        <div id="add-port-flex-wrapper">
+          <div id="add-port-input-div">
+            <label for="add-port">
+              Add port:
+            </label>
+            <span class="error-message" id="no-port-error"
+              >Enter a valid name</span
+            >
+            <br />
+            <input
+              type="text"
+              id="add-port-input"
+              name="add-port"
+              placeholder="Port name here..."
+            />
+          </div>
+          <button type="button" id="add-button">ADD</button>
+        </div>
+      </form>
+      <div id="user-itinerary">
+        <h2>
+          STEP 2: Review your itinerary
+        </h2>
+        <ul id="port-list"></ul>
+        <div id="start-button-div">
+          <p>Press START to load your ports, or reset to plan new itinerary.</p>
+          <div id="review-buttons">
+            <button type="button" id="start-button">START</button>
+            <button
+              type="reset"
+              id="reset-button"
+              onClick="window.location.reload();"
+            >
+              RESET
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="port-tracker"></div>
     <div id="viewport">
       <div id="ports"></div>
       <div id="ship"></div>
     </div>
-    <button id="sailbutton">Set sail!</button>
-
+    <div class="flex-wrapper-1000px" id="after-viewport-container">
+      <div id="set-sail-div">
+        <h2>STEP 3: Set sail!</h2>
+        <button type="button" id="sailbutton">GO!</button>
+      </div>
+      <div id="new-journey-div">
+        <h2>STEP 4: New journey</h2>
+        <button
+          type="button"
+          id="new-journey-button"
+          onClick="window.location.reload();"
+        >
+          GO!
+        </button>
+      </div>
+    </div>
     <script src="src/Controller.js"></script>
     <script src="src/Port.js"></script>
     <script src="src/Itinerary.js"></script>
     <script src="src/Ship.js"></script>
     <script>
-      const itinerary = new Itinerary([
-        new Port("New York City"),
-        new Port("Grand Turk"),
-        new Port("San Juan"),
-        new Port("Amber Cove"),
-      ]);
-      const ship = new Ship(itinerary);
-      const controller = new Controller(ship);
-      controller.renderPorts(itinerary.ports);
-      controller.renderShip();
-      controller.renderPortTracker();
+      let userPorts = [];
+      document.querySelector("#add-button").addEventListener("click", () => {
+        const portInput = document.querySelector("#add-port-input");
+        const errorMessage = document.querySelector("#no-port-error");
+        if (!portInput.value) {
+          return (errorMessage.style.display = "inline");
+        }
+        errorMessage.style.display = "none";
+        let port = new Port(portInput.value);
+        userPorts.push(port);
+        portInput.value = "";
+        let portElement = document.createElement("li");
+        portElement.className = "user-port-li";
+        portElement.id = `user-port-${userPorts.indexOf(port)}`;
+        portElement.innerHTML = port.name;
+        document.querySelector("#port-list").appendChild(portElement);
+      });
+
+      document
+        .querySelector("#add-port-input")
+        .addEventListener("keypress", function (event) {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            document.querySelector("#add-button").click();
+          }
+        });
+
+      document.querySelector("#start-button").addEventListener("click", () => {
+        const itinerary = new Itinerary(userPorts);
+        const ship = new Ship(itinerary);
+        const controller = new Controller(ship);
+        controller.renderPorts(ship.itinerary.ports);
+        controller.renderShip();
+        controller.renderPortTracker();
+      });
     </script>
   </body>
 </html>

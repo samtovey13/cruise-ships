@@ -69,20 +69,18 @@
         clearInterval(sailInterval);
       }
       shipElement.style.left = `${shipLeft + 1}px`;
-    }, 10);
+    }, 15);
   };
 
   Controller.prototype.renderMessage = function renderMessage(message) {
     const messageElement = document.createElement("div");
     messageElement.id = "message";
     messageElement.innerHTML = message;
-    const messageDiv = document.querySelector("#message-div");
-    messageDiv.style.backgroundColor = "white";
-    messageDiv.appendChild(messageElement);
+    const viewport = document.querySelector("#viewport");
+    viewport.appendChild(messageElement);
     setTimeout(() => {
-      messageDiv.removeChild(messageElement);
-      messageDiv.style.backgroundColor = "black";
-    }, 3000);
+      viewport.removeChild(messageElement);
+    }, 2000);
   };
 
   Controller.prototype.renderPortTracker = function renderPortTracker() {
@@ -100,7 +98,7 @@
 
     const currentPortDiv = document.createElement("div");
     currentPortDiv.id = "current-port-div";
-    currentPortDiv.innerHTML = `Current Port: '${currentPort.name}'`;
+    currentPortDiv.innerHTML = `Current Port: ${currentPort.name}`;
     portTrackerElement.appendChild(currentPortDiv);
 
     const nextPortDiv = document.createElement("div");
@@ -109,7 +107,7 @@
       nextPortDiv.innerHTML = "You have reached your final destination.";
       portTrackerElement.appendChild(nextPortDiv);
     } else {
-      nextPortDiv.innerHTML = `Next Port: '${nextPort.name}'`;
+      nextPortDiv.innerHTML = `Next Port: ${nextPort.name}`;
       portTrackerElement.appendChild(nextPortDiv);
     }
   };
